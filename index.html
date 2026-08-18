@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GripBelt – Smartare bälten</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f7f5;
+            color: #111;
+        }
+
+        /* ---------- NAVBAR ---------- */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.93);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #6b8e23;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #222;
+            margin: 0 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            color: #6b8e23;
+        }
+
+        .cart-button {
+            border: none;
+            background: #111;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .cart-button:hover {
+            transform: translateY(-2px);
+            background: #6b8e23;
+        }
+
+        /* ---------- HERO ---------- */
+
+        .hero {
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 20px;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(107,142,35,0.16), transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(0,0,0,0.08), transparent 30%),
+                #f4f5f1;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e5ecd8;
+            color: #55751b;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(50px, 8vw, 90px);
+            line-height: 0.95;
+            letter-spacing: -5px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #6b8e23;
+        }
+
+        .hero p {
+            max-width: 620px;
+            margin: auto;
+            font-size: 19px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .primary-button,
+        .secondary-button {
+            padding: 15px 25px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .primary-button {
+            background: #111;
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: #6b8e23;
+        }
+
+        .secondary-button {
+            background: white;
+            color: #111;
+            border: 1px solid #ddd;
+        }
+
+        /* ---------- PRODUCT ---------- */
+
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 90px 25px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid #e8e8e8;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .product:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.1);
+        }
+
+        .belt-display {
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f2f2f0;
+            overflow: hidden;
+        }
+
+        .belt {
+            width: 240px;
+            height: 48px;
+            border-radius: 25px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: rotate(-7deg);
+        }
+
+        .belt::after {
+            content: "";
+            position: absolute;
+            right: -20px;
+            top: 7px;
+            height: 34px;
+            width: 42px;
+            border-radius: 7px;
+            background: #b6b6b6;
+            box-shadow: inset 0 0 0 5px rgba(255,255,255,0.25);
+        }
+
+        .black {
+            background: linear-gradient(90deg, #080808, #292929);
+        }
+
+        .green {
+            background: linear-gradient(90deg, #49651d, #7c9e34);
+        }
+
+        .blue {
+            background: linear-gradient(90deg, #1b426e, #376fa8);
+        }
+
+        .beige {
+            background: linear-gradient(90deg, #b8a27d, #d4c3a5);
+        }
+
+        .product-info {
+            padding: 24px;
+        }
+
+        .product-info h3 {
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .product-info p {
+            color: #777;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .add-button {
+            background: #111;
+            color: white;
+            border: none;
+            padding: 11px 17px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background: #6b8e23;
+        }
+
+        /* ---------- FEATURES ---------- */
+
+        .features {
+            background: #111;
+            color: white;
+        }
+
+        .feature-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 80px 25px;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        /* ---------- ABOUT ---------- */
+
+        .about {
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+            padding: 90px 25px;
+        }
+
+        .about h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* ---------- CHECKOUT ---------- */
+
+        #checkout {
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .checkout-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 80px 25px;
+        }
+
+        .checkout-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .checkout-title h2 {
+            font-size: 42px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .checkout-box {
+            background: #f7f7f5;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #e5e5e5;
+        }
+
+        .checkout-box h3 {
+            margin-bottom: 20px;
+            font-size: 23px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            margin-top: 15px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #d5d5d5;
+            font-size: 16px;
+            background: white;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #6b8e23;
+            box-shadow: 0 0 0 3px rgba(107,142,35,0.12);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            color: #555;
+        }
+
+        .total {
+            border-top: 1px solid #ddd;
+            padding-top: 17px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .buy-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #6b8e23;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .buy-button:hover {
+            background: #55751b;
+            transform: translateY(-2px);
+        }
+
+        /* ---------- SUCCESS ---------- */
+
+        .success {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-box {
+            max-width: 470px;
+            width: 100%;
+            background: white;
+            border-radius: 25px;
+            padding: 45px;
+            text-align: center;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.25);
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .success-box h2 {
+            margin-bottom: 12px;
+        }
+
+        .success-box p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .close-success {
+            background: #111;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ---------- FOOTER ---------- */
+
+        footer {
+            background: #0b0b0b;
+            color: white;
+            padding: 45px 25px;
+            text-align: center;
+        }
+
+        footer .logo {
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: #777;
+        }
+
+        /* ---------- CART ---------- */
+
+        .cart-count {
+            background: #6b8e23;
+            padding: 2px 7px;
+            border-radius: 20px;
+            margin-left: 4px;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+
+        @media (max-width: 800px) {
+
+            nav {
+                padding: 0 15px;
+            }
+
+            nav .links {
+                display: none;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 580px;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .section-title h2,
+            .about h2,
+            .checkout-title h2 {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav>
+            <div class="logo">Grip<span>Belt</span></div>
+
+            <div class="links">
+                <a href="#shop">Shop</a>
+                <a href="#about">Om oss</a>
+                <a href="#features">Fördelar</a>
+                <a href="#checkout">Köp</a>
+            </div>
+
+            <button class="cart-button" onclick="scrollToCheckout()">
+                🛒 Varukorg
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">THE NEXT GENERATION OF BELTS</div>
+
+            <h1>
+                SIMPLY<br>
+                <span>GRIPBELT.</span>
+            </h1>
+
+            <p>
+                Ett smartare bälte utan krångligt spänne.
+                Justera enkelt, få en perfekt passform och
+                använd det varje dag.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#shop" class="primary-button">Se våra bälten</a>
+                <a href="#about" class="secondary-button">Läs mer</a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SHOP -->
+    <section class="section" id="shop">
+
+        <div class="section-title">
+            <h2>Välj din GripBelt</h2>
+            <p>Fyra färger. Samma smarta idé.</p>
+        </div>
+
+
+        <div class="products">
+
+            <!-- BLACK -->
+            <div class="product">
+
+                <div class="belt-display">
+                    <div class="belt black"></div>
+                </div>
+
+                <div class="product-info">
+
+                    <h3>GripBelt Black</h3>
+
+                    <p>
+                        Klassisk svart design som passar till nästan allt.
+                    </p>
+
+                    <div class="price-row">
+                        <span class="price">149 kr</span>
+
+                        <button class="add-button"
+                            onclick="addToCart('GripBelt Black', 'Svart')">
+                            Lägg i varukorg
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- GREEN -->
+            <div class="product">
+
+                <div class="belt-display">
+                    <div class="belt green"></div>
+                </div>
+
+                <div class="product-info">
+
+                    <h3>GripBelt Green</h3>
+
+                    <p>
+                        En modern grön färg för dig som vill sticka ut.
+                    </p>
+
+                    <div class="price-row">
+                        <span class="price">149 kr</span>
+
+                        <button class="add-button"
+                            onclick="addToCart('GripBelt Green', 'Grön')">
+                            Lägg i varukorg
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- BLUE -->
+            <div class="product">
+
+                <div class="belt-display">
+                    <div class="belt blue"></div>
+                </div>
+
+                <div class="product-info">
+
+                    <h3>GripBelt Blue</h3>
+
+                    <p>
+                        En stilren blå variant med sportig känsla.
+                    </p>
+
+                    <div class="price-row">
+                        <span class="price">149 kr</span>
+
+                        <button class="add-button"
+                            onclick="addToCart('GripBelt Blue', 'Blå')">
+                            Lägg i varukorg
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- BEIGE -->
+            <div class="product">
+
+                <div class="belt-display">
+                    <div class="belt beige"></div>
+                </div>
+
+                <div class="product-info">
+
+                    <h3>GripBelt Sand</h3>
+
+                    <p>
+                        Stilren sandfärg för en mer minimalistisk look.
+                    </p>
+
+                    <div class="price-row">
+                        <span class="price">149 kr</span>
+
+                        <button class="add-button"
+                            onclick="addToCart('GripBelt Sand', 'Sand')">
+                            Lägg i varukorg
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+
+        <div class="feature-grid">
+
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Enkelt</h3>
+                <p>
+                    Justera bältet snabbt och enkelt utan ett
+                    traditionellt bältesspänne.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h3>Perfekt passform</h3>
+                <p>
+                    Justera exakt efter din midja för en bekväm
+                    känsla hela dagen.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">♻️</div>
+                <h3>Smartare material</h3>
+                <p>
+                    Vi vill skapa produkter som håller länge
+                    och minska onödigt materialspill.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+
+        <h2>Varför GripBelt?</h2>
+
+        <p>
+            Vi ville skapa ett bälte som är enklare att använda,
+            bekvämare och samtidigt har en modern design.
+            Därför tog vi den klassiska idén med kardborre
+            och utvecklade den till ett snyggt vardagsbälte.
+        </p>
+
+    </section>
+
+
+    <!-- CHECKOUT -->
+    <section id="checkout">
+
+        <div class="checkout-container">
+
+            <div class="checkout-title">
+
+                <h2>Slutför ditt köp</h2>
+
+                <p>
+                    Fyll i dina uppgifter nedan.
+                </p>
+
+            </div>
+
+
+            <div class="checkout-grid">
+
+
+                <!-- CUSTOMER INFO -->
+
+                <div class="checkout-box">
+
+                    <h3>Leveransuppgifter</h3>
+
+                    <form id="orderForm">
+
+                        <label for="name">För- och efternamn</label>
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Ex. Elias Heddelin"
+                            required
+                        >
+
+                        <label for="email">E-post</label>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="din@email.se"
+                            required
+                        >
+
+                        <label for="address">Adress</label>
+                        <input
+                            type="text"
+                            id="address"
+                            placeholder="Gatuadress 12"
+                            required
+                        >
+
+                        <label for="postcode">Postnummer</label>
+                        <input
+                            type="text"
+                            id="postcode"
+                            placeholder="451 00"
+                            required
+                        >
+
+                        <label for="city">Ort</label>
+                        <input
+                            type="text"
+                            id="city"
+                            placeholder="Uddevalla"
+                            required
+                        >
+
+                    </form>
+
+                </div>
+
+
+                <!-- ORDER -->
+
+                <div class="checkout-box">
+
+                    <h3>Din beställning</h3>
+
+                    <div id="orderItems">
+
+                        <div class="order-item">
+                            <span>Din varukorg är tom</span>
+                            <span>0 kr</span>
+                        </div>
+
+                    </div>
+
+                    <div class="total">
+                        <span>Totalt</span>
+                        <span id="totalPrice">0 kr</span>
+                    </div>
+
+                    <button class="buy-button" onclick="placeOrder()">
+                        🛍️ Beställ GripBelt
+                    </button>
+
+                    <p style="text-align:center; color:#888; font-size:13px; margin-top:12px;">
+                        Detta är en demobutik. Ingen riktig betalning genomförs.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUCCESS POPUP -->
+
+    <div class="success" id="success">
+
+        <div class="success-box">
+
+            <div class="success-icon">✅</div>
+
+            <h2>Beställningen är klar!</h2>
+
+            <p>
+                Tack för din beställning av GripBelt.
+                Detta är en demo, så ingen riktig betalning
+                eller beställning har genomförts.
+            </p>
+
+            <button class="close-success" onclick="closeSuccess()">
+                Tillbaka till shoppen
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="logo">
+            Grip<span>Belt</span>
+        </div>
+
+        <p>
+            Smartare bälten. Enklare vardag.
+        </p>
+
+        <p style="margin-top:15px; font-size:13px;">
+            © 2026 GripBelt
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        let cart = [];
+
+        const PRICE = 149;
+
+
+        // LÄGG TILL PRODUKT
+
+        function addToCart(productName, color) {
+
+            cart.push({
+                name: productName,
+                color: color,
+                price: PRICE
+            });
+
+            updateCart();
+
+            // Scrolla automatiskt lite mot checkout
+            document.getElementById("checkout").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+
+        // UPPDATERA VARUKORG
+
+        function updateCart() {
+
+            const cartCount = document.getElementById("cartCount");
+            const orderItems = document.getElementById("orderItems");
+            const totalPrice = document.getElementById("totalPrice");
+
+            cartCount.textContent = cart.length;
+
+
+            if (cart.length === 0) {
+
+                orderItems.innerHTML = `
+                    <div class="order-item">
+                        <span>Din varukorg är tom</span>
+                        <span>0 kr</span>
+                    </div>
+                `;
+
+                totalPrice.textContent = "0 kr";
+
+                return;
+            }
+
+
+            orderItems.innerHTML = "";
+
+            let total = 0;
+
+
+            cart.forEach((item, index) => {
+
+                total += item.price;
+
+                const div = document.createElement("div");
+
+                div.className = "order-item";
+
+                div.innerHTML = `
+                    <span>
+                        ${item.name}
+                        <br>
+                        <small style="color:#888;">
+                            ${item.color}
+                        </small>
+                    </span>
+
+                    <span>
+                        ${item.price} kr
+                        <button
+                            onclick="removeFromCart(${index})"
+                            style="
+                                border:none;
+                                background:none;
+                                color:#c00;
+                                cursor:pointer;
+                                margin-left:8px;
+                            "
+                        >
+                            ✕
+                        </button>
+                    </span>
+                `;
+
+                orderItems.appendChild(div);
+
+            });
+
+
+            totalPrice.textContent = total + " kr";
+        }
+
+
+        // TA BORT PRODUKT
+
+        function removeFromCart(index) {
+
+            cart.splice(index, 1);
+
+            updateCart();
+        }
+
+
+        // SCROLLA TILL CHECKOUT
+
+        function scrollToCheckout() {
+
+            document.getElementById("checkout").scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+        // GENOMFÖR DEMOBESTÄLLNING
+
+        function placeOrder() {
+
+            const form = document.getElementById("orderForm");
+
+            if (cart.length === 0) {
+
+                alert("Du måste lägga till ett bälte först!");
+
+                return;
+            }
+
+
+            if (!form.checkValidity()) {
+
+                form.reportValidity();
+
+                return;
+            }
+
+
+            document.getElementById("success").style.display = "flex";
+
+        }
+
+
+        // STÄNG POPUP
+
+        function closeSuccess() {
+
+            document.getElementById("success").style.display = "none";
+
+        }
+
+
+        // STARTA SIDAN
+
+        updateCart();
+
+    </script>
+
+</body>
+</html>
